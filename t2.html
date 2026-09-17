@@ -1,0 +1,86 @@
+<!-- t2.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>Sender Account</label>
+    <input type="text" data-preview-target="t2-sender" value="01615856046">
+  </div>
+  <div class="form-group">
+    <label>Recipient Account</label>
+    <input type="text" data-preview-target="t2-receiver" value="01712345678">
+  </div>
+  <div class="form-group">
+    <label>Time</label>
+    <input type="text" data-preview-target="t2-time" value="12:18pm 03/05/26">
+  </div>
+  <div class="form-group">
+    <label>Amount</label>
+    <input type="text" data-preview-target="t2-amt" value="৳500.00">
+  </div>
+  <div class="form-group">
+    <label>Fee</label>
+    <input type="text" data-preview-target="t2-fee" value="৳5.00">
+  </div>
+  <div class="form-group">
+    <label>Total</label>
+    <input type="text" data-preview-target="t2-total" value="৳505.00">
+  </div>
+  <div class="form-group">
+    <label>Transaction ID</label>
+    <input type="text" data-preview-target="t2-trxn" value="DE38R4P2YG">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Receipt) -->
+<div class="template-preview" style="background:#fff; border-radius:24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow:hidden; width:100%; max-width:400px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; padding:20px;">
+    <div style="font-size:16px; font-weight:600;">আপনার <span style="color:#c2185b; font-weight:700;">সেন্ড মানি</span> সফল হয়েছে</div>
+    <div style="width:36px; height:36px; border:2px solid #22c55e; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#22c55e;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+  </div>
+  <div style="border-top:1px solid #e0e0e0;"></div>
+  <div style="display:flex; align-items:center; padding:16px 20px;">
+    <div style="width:48px; height:48px; background:#d9f0f7; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#00838f; font-size:20px; font-weight:600;">0</div>
+    <div style="margin-left:12px; font-size:16px; line-height:1.6;">
+      <div id="t2-sender" style="color:#000;">01615856046</div>
+      <div id="t2-receiver" style="color:#000;">01712345678</div>
+    </div>
+    <button style="margin-left:auto; border:1.5px solid #c2185b; color:#c2185b; background:transparent; border-radius:999px; padding:8px 20px; font-size:14px; font-weight:500; font-family:inherit;">কল</button>
+  </div>
+  <div style="border-top:1px solid #e0e0e0;"></div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid #e0e0e0;">
+    <div style="padding:16px 20px; border-bottom:1px solid #e0e0e0; border-right:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#888; margin-bottom:6px;">সময়</div>
+      <div id="t2-time" style="font-size:16px; font-weight:500; color:#000;">12:18pm 03/05/26</div>
+    </div>
+    <div style="padding:16px 20px; border-bottom:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#888; margin-bottom:6px;">ট্রানজেকশন আইডি</div>
+      <div style="font-size:16px; font-weight:500; color:#000;"><span id="t2-trxn">DE38R4P2YG</span></div>
+    </div>
+    <div style="padding:16px 20px; border-bottom:1px solid #e0e0e0; border-right:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#888; margin-bottom:6px;">সর্বমোট</div>
+      <div id="t2-total" style="font-size:16px; font-weight:500; color:#000;">৳505.00</div>
+      <div style="font-size:13px; color:#888; margin-top:4px;"><span id="t2-amt">৳500.00</span> + <span id="t2-fee">৳5.00</span></div>
+    </div>
+    <div style="padding:16px 20px;">
+      <div style="font-size:12px; color:#888; margin-bottom:6px;">নতুন ব্যালেন্স</div>
+      <div style="font-size:16px; font-weight:500; color:#000;">৳200.10</div>
+    </div>
+  </div>
+  <div style="display:flex; gap:12px; padding:20px; border-bottom:1px solid #e0e0e0;">
+    <button style="flex:1; border:1.5px solid #c2185b; color:#c2185b; background:transparent; border-radius:999px; padding:12px 8px; font-weight:500; font-family:inherit;">অ্যাটো পে চালু করুন</button>
+    <button style="flex:1; border:1.5px solid #c2185b; color:#c2185b; background:transparent; border-radius:999px; padding:12px 8px; font-weight:500; font-family:inherit;">শেয়ার</button>
+  </div>
+  <div style="text-align:center; padding:24px 20px;">
+    <div style="width:56px; height:56px; background:#c2185b; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:#fff;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+    </div>
+    <div style="font-size:14px; color:#888; margin-bottom:4px;">আপনি অর্জন করছেন</div>
+    <div style="font-size:18px; font-weight:700;">বিকাশ রিওয়ার্ড পয়েন্ট</div>
+  </div>
+  <div style="background:#c2185b; color:#fff; padding:18px 20px; display:flex; justify-content:space-between; align-items:center; font-size:16px; font-weight:600;">
+    হোম-এ ফিরে যাই
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+  </div>
+</div>
