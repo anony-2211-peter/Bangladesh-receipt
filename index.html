@@ -176,10 +176,14 @@
     font-size: 16px;
     line-height: 1.6;
   }
-  /* Force phone numbers to be black and have no underline */
-  .phone-numbers div {
+ /* Force phone numbers to be black and have no underline */
+  .phone-numbers div,
+  .phone-numbers a,
+  .phone-numbers span {
     color: #000 !important;
-    text-decoration: none !important;
+    -webkit-text-fill-color: #000 !important; /* Ye iOS ka blue color hata dega */
+    text-decoration: none !important; /* Ye underline hata dega */
+    pointer-events: none; /* Ye number par click karne se rok dega */
   }
   .call-btn {
     margin-left: auto;
