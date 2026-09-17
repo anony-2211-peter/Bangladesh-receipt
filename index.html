@@ -50,13 +50,6 @@
   /* Editor Panel */
   .editor-panel { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
   .editor-panel h2 { font-size: 18px; margin-bottom: 20px; font-weight: 700; }
-  .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--gray); margin-bottom: 6px; text-transform: uppercase; }
-  .form-group input {
-    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px;
-    font-family: inherit; font-size: 15px; outline: none; color: #000;
-  }
-  .form-group input:focus { border-color: var(--pink); }
   .download-btn {
     width: 100%; background: var(--pink); color: #fff; border: none; border-radius: 8px; padding: 14px;
     font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer;
@@ -70,7 +63,15 @@
     border-radius: 24px; padding: 40px 20px; min-height: 500px; position: relative;
   }
   
-  /* Responsive */
+  /* Global styles for templates */
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--gray); margin-bottom: 6px; text-transform: uppercase; }
+  .form-group input, .form-group select {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px;
+    font-family: inherit; font-size: 15px; outline: none; color: #000;
+  }
+  .form-group input:focus { border-color: var(--pink); }
+
   @media (max-width: 850px) {
     .main-content { grid-template-columns: 1fr; }
     .preview-panel { min-height: auto; }
@@ -87,98 +88,121 @@
     </div>
   </header>
 
-  <!-- Template Buttons (Jab naya template aayega, yahan ek button add kar lenge) -->
-  <div class="template-scroll">
+  <!-- Template Buttons: Naya template aane par bas yahan ek button add karna hai -->
+  <div class="template-scroll" id="template-buttons">
     <button class="pill active" onclick="loadTemplate('t1.html', this)">bKash Received Money</button>
     <button class="pill" onclick="loadTemplate('t2.html', this)">bKash Send Money (Full)</button>
-    <!-- Future templates will be added here -->
+    <!-- <button class="pill" onclick="loadTemplate('t3.html', this)">Nagad Cash In</button> -->
   </div>
 
   <div class="main-content">
-    <!-- Editor Panel -->
+    <!-- Editor Panel (Form yahan load hoga) -->
     <div class="editor-panel">
       <h2>EDIT FIELDS</h2>
-      <div class="form-group"><label>Account Number</label><input type="text" id="input-acc" value="01615856046" oninput="updatePreview()"></div>
-      <div class="form-group"><label>Time</label><input type="text" id="input-time" value="12:18pm 03/05/26" oninput="updatePreview()"></div>
-      <div class="form-group"><label>Amount</label><input type="text" id="input-amt" value="৳485.00" oninput="updatePreview()"></div>
-      <div class="form-group"><label>Charge</label><input type="text" id="input-charge" value="৳0.00" oninput="updatePreview()"></div>
-      <div class="form-group"><label>Transaction ID</label><input type="text" id="input-trxn" value="DE38R4P2YG" oninput="updatePreview()"></div>
-      <div class="form-group"><label>Reference</label><input type="text" id="input-ref" value="" oninput="updatePreview()" placeholder="Add reference..."></div>
+      <div id="form-container">
+        <div style="text-align:center; color: #888; padding: 20px;">Loading form...</div>
+      </div>
       <button class="download-btn" onclick="downloadReceipt()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         Download Receipt (PNG)
       </button>
     </div>
 
-    <!-- Preview Container (Yahan external file load hogi) -->
+    <!-- Preview Panel (Receipt yahan load hoga) -->
     <div class="preview-panel" id="preview-container">
-      <div style="text-align:center; color: #888;">Loading template...</div>
+      <div style="text-align:center; color: #888;">Loading preview...</div>
     </div>
   </div>
 </div>
 
 <script>
-  // Function to load external HTML file into the preview container
+  // 1. Template Loader Function
   async function loadTemplate(filename, btnElement) {
     // Update active button state
     document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
-    const container = document.getElementById('preview-container');
-    container.innerHTML = '<div style="text-align:center; color: #888; padding: 50px;">Loading...</div>';
+    const formContainer = document.getElementById('form-container');
+    const previewContainer = document.getElementById('preview-container');
+    
+    formContainer.innerHTML = '<div style="text-align:center; color: #888; padding: 20px;">Loading...</div>';
+    previewContainer.innerHTML = '<div style="text-align:center; color: #888; padding: 50px;">Loading...</div>';
 
     try {
       const response = await fetch(filename);
       if (!response.ok) throw new Error('File not found');
       const html = await response.text();
-      container.innerHTML = html;
       
-      // After loading, immediately update the preview with current field values
-      updatePreview();
+      // Parse the HTML string into a DOM object
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
       
-      // iOS Auto-link remover
-      const phoneDivs = container.querySelectorAll('.phone-number-display');
-      phoneDivs.forEach(div => {
-        const links = div.querySelectorAll('a');
-        links.forEach(link => link.replaceWith(link.innerText));
-      });
+      // Extract the form and preview parts
+      const formContent = doc.querySelector('.template-form');
+      const previewContent = doc.querySelector('.template-preview');
+      const styleContent = doc.querySelector('style');
+
+      if (formContent) {
+        formContainer.innerHTML = formContent.innerHTML;
+      } else {
+        formContainer.innerHTML = '<p>No form found in this template.</p>';
+      }
+
+      if (previewContent) {
+        previewContainer.innerHTML = previewContent.outerHTML;
+      } else {
+        previewContainer.innerHTML = '<p>No preview found in this template.</p>';
+      }
+
+      // Inject template specific CSS if present
+      if (styleContent) {
+        // Remove old template styles
+        document.querySelectorAll('.template-style').forEach(el => el.remove());
+        const newStyle = document.createElement('style');
+        newStyle.className = 'template-style';
+        newStyle.innerHTML = styleContent.innerHTML;
+        document.head.appendChild(newStyle);
+      }
+
+      // Bind inputs to preview elements
+      bindInputsToPreview();
 
     } catch (error) {
-      container.innerHTML = '<div style="text-align:center; color: red; padding: 50px;">Error loading template. Make sure the file exists.</div>';
+      console.error(error);
+      formContainer.innerHTML = '<p style="color:red;">Error loading form.</p>';
+      previewContainer.innerHTML = '<p style="color:red;">Error loading preview.</p>';
     }
   }
 
-  // Update Preview Inputs dynamically
-  function updatePreview() {
-    const acc = document.getElementById('input-acc').value;
-    const time = document.getElementById('input-time').value;
-    const amt = document.getElementById('input-amt').value;
-    const charge = document.getElementById('input-charge').value;
-    const trxn = document.getElementById('input-trxn').value;
-    const ref = document.getElementById('input-ref').value;
+  // 2. Bind Inputs: Jo bhi input change ho, preview me update ho jaye
+  function bindInputsToPreview() {
+    const inputs = document.querySelectorAll('#form-container input, #form-container select');
+    
+    inputs.forEach(input => {
+      // Initial Sync
+      updatePreviewField(input);
+      
+      // Event Listener
+      input.addEventListener('input', () => updatePreviewField(input));
+      input.addEventListener('change', () => updatePreviewField(input));
+    });
+  }
 
-    // Mapping dictionary: Input ID -> Preview Element ID
-    const mappings = {
-      'p-acc': acc,
-      'p-acc-sub': acc,
-      'p-time': time,
-      'p-amt': amt,
-      'p-charge': charge,
-      'p-trxn': trxn,
-      'p-ref': ref
-    };
-
-    // Loop through mappings and update text if element exists
-    for (const [previewId, value] of Object.entries(mappings)) {
-      const el = document.getElementById(previewId);
-      if (el) el.innerText = value;
+  function updatePreviewField(input) {
+    const targetId = input.getAttribute('data-preview-target');
+    if (targetId) {
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.innerText = input.value;
+      }
     }
   }
 
-  // Download Receipt Logic
+  // 3. Download Receipt Logic
   function downloadReceipt() {
-    // Find the currently loaded template inside the container
-    const activePreview = document.querySelector('#preview-container > div');
+    const previewContainer = document.getElementById('preview-container');
+    const activePreview = previewContainer.firstElementChild;
+    
     if (!activePreview) return;
 
     const btn = document.querySelector('.download-btn');
@@ -192,10 +216,13 @@
       useCORS: true
     }).then(canvas => {
       const link = document.createElement('a');
-      const trxnId = document.getElementById('input-trxn').value || 'receipt';
+      const trxnInput = document.querySelector('#form-container input[data-preview-target*="trxn"]');
+      const trxnId = trxnInput ? trxnInput.value : 'receipt';
+      
       link.download = 'receipt-' + trxnId + '.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
+      
       btn.innerHTML = originalText;
       btn.disabled = false;
     }).catch(err => {
