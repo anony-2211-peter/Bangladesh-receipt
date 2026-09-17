@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- FIX 1: Stop Safari from turning phone numbers into blue links -->
+<meta name="format-detection" content="telephone=no">
 <title>bKash Receipt Generator</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- Include html2canvas for the download feature -->
@@ -25,6 +27,8 @@
     justify-content: center;
     padding: 20px;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   /* Layout */
@@ -71,6 +75,7 @@
     font-size: 15px;
     outline: none;
     transition: border-color 0.2s;
+    color: #000;
   }
   .form-group input:focus {
     border-color: var(--pink);
@@ -106,15 +111,26 @@
   
   /* The Receipt Design (Will be captured by html2canvas) */
   .receipt-wrapper {
-    background: #fff;
+    /* FIX 2: Change background to pink. This prevents white patches at the bottom corners */
+    background: var(--pink); 
     border-radius: 24px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     overflow: hidden;
     width: 100%;
     max-width: 400px;
-    /* Prevents blurry text in html2canvas */
-    -webkit-font-smoothing: antialiased;
+    /* FIX 3: Forces GPU rendering, fixes blurry text and white patches on iPad */
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
   }
+  
+  /* FIX 4: Explicitly set upper sections to white */
+  .header, .phone-section, .grid, .reference, .actions, .reward {
+    background-color: #fff;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -137,7 +153,7 @@
     justify-content: center;
     color: #22c55e;
   }
-  .divider { border-top: 1px solid var(--border); }
+  .divider { border-top: 1px solid var(--border); background-color: #fff; }
   .phone-section {
     display: flex;
     align-items: center;
@@ -159,6 +175,11 @@
     margin-left: 12px;
     font-size: 16px;
     line-height: 1.6;
+  }
+  /* Force phone numbers to be black and have no underline */
+  .phone-numbers div {
+    color: #000 !important;
+    text-decoration: none !important;
   }
   .call-btn {
     margin-left: auto;
@@ -196,6 +217,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    color: #000;
   }
   .sub {
     font-size: 13px;
@@ -247,9 +269,11 @@
     color: #fff;
   }
   .reward-sub { font-size: 14px; color: var(--gray); margin-bottom: 4px; }
-  .reward-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .reward-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: #000; }
   .reward-desc { font-size: 13px; color: #555; }
   .reward-desc a { color: var(--pink); text-decoration: underline; font-weight: 500; }
+  
+  /* FIX 5: Bottom bar matches wrapper background and has no individual border radius */
   .bottom-bar {
     background: var(--pink);
     color: #fff;
@@ -259,6 +283,8 @@
     align-items: center;
     font-size: 16px;
     font-weight: 600;
+    border-radius: 0; /* Let the main wrapper handle the rounded corners */
+    margin-bottom: 0;
   }
   .bottom-bar svg { width: 20px; height: 20px; }
 
@@ -279,11 +305,11 @@
     
     <div class="form-group">
       <label>Recipient Phone</label>
-      <input type="text" id="input-phone" value="01615856046" oninput="updatePreview()">
+      <input type="tel" id="input-phone" value="01615856046" oninput="updatePreview()">
     </div>
     <div class="form-group">
       <label>Recipient Phone (Sub)</label>
-      <input type="text" id="input-phone-sub" value="01615856046" oninput="updatePreview()">
+      <input type="tel" id="input-phone-sub" value="01615856046" oninput="updatePreview()">
     </div>
     <div class="form-group">
       <label>Time (সময়)</label>
@@ -471,7 +497,7 @@
     // Use html2canvas to capture the element
     html2canvas(receipt, {
       scale: 2, // Higher scale for better quality on retina screens
-      backgroundColor: '#ffffff', // Ensure background is white, not transparent
+      backgroundColor: null, // Set to null to preserve the rounded corners transparently
       useCORS: true
     }).then(canvas => {
       // Create a temporary link to download the image
