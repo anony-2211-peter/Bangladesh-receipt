@@ -1,0 +1,68 @@
+<!-- t1.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>Account Number</label>
+    <input type="text" data-preview-target="t1-acc" value="01615856046">
+  </div>
+  <div class="form-group">
+    <label>Time</label>
+    <input type="text" data-preview-target="t1-time" value="12:18pm 03/05/26">
+  </div>
+  <div class="form-group">
+    <label>Amount</label>
+    <input type="text" data-preview-target="t1-amt" value="৳485.00">
+  </div>
+  <div class="form-group">
+    <label>Charge</label>
+    <input type="text" data-preview-target="t1-charge" value="৳0.00">
+  </div>
+  <div class="form-group">
+    <label>Transaction ID</label>
+    <input type="text" data-preview-target="t1-trxn" value="DE38R4P2YG">
+  </div>
+  <div class="form-group">
+    <label>Reference</label>
+    <input type="text" data-preview-target="t1-ref" value="" placeholder="Add reference...">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Receipt) -->
+<div class="template-preview" style="background:#fff; border-radius:16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow:hidden; width:100%; max-width:400px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 24px; border-bottom:1px solid #e0e0e0;">
+    <h3 style="font-size:18px; font-weight:700;">Received Money</h3>
+    <button style="color:#c2185b; font-size:16px; font-weight:600; background:none; border:none; font-family:inherit;">Close</button>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid #e0e0e0;">
+    <div style="padding:16px 24px; border-bottom:1px solid #e0e0e0; border-right:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#757575; margin-bottom:6px;">Account</div>
+      <div id="t1-acc" style="font-size:16px; font-weight:500; color:#000;">01615856046</div>
+    </div>
+    <div style="padding:16px 24px; border-bottom:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#757575; margin-bottom:6px;">Time</div>
+      <div id="t1-time" style="font-size:16px; font-weight:500; color:#000;">12:18pm 03/05/26</div>
+    </div>
+    <div style="padding:16px 24px; border-bottom:1px solid #e0e0e0; border-right:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#757575; margin-bottom:6px;">Amount</div>
+      <div id="t1-amt" style="font-size:16px; font-weight:500; color:#000;">৳485.00</div>
+    </div>
+    <div style="padding:16px 24px; border-bottom:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#757575; margin-bottom:6px;">Charge</div>
+      <div id="t1-charge" style="font-size:16px; font-weight:500; color:#000;">৳0.00</div>
+    </div>
+    <div style="padding:16px 24px; border-bottom:1px solid #e0e0e0; border-right:1px solid #e0e0e0;">
+      <div style="font-size:12px; color:#757575; margin-bottom:6px;">Transaction ID</div>
+      <div style="font-size:16px; font-weight:500; color:#000;">
+        <span id="t1-trxn">DE38R4P2YG</span>
+      </div>
+    </div>
+    <div style="padding:16px 24px;">
+      <div style="font-size:12px; color:#757575; margin-bottom:6px;">Reference</div>
+      <div id="t1-ref" style="font-size:16px; font-weight:500; color:#000;"></div>
+    </div>
+  </div>
+  <div style="display:flex; gap:12px; padding:20px 24px;">
+    <button style="flex:1; border:1.5px solid #c2185b; color:#c2185b; background:transparent; border-radius:999px; padding:12px 8px; font-weight:600;">Send Money</button>
+    <button style="flex:1; border:1.5px solid #c2185b; color:#c2185b; background:transparent; border-radius:999px; padding:12px 8px; font-weight:600;">Share</button>
+  </div>
+</div>
