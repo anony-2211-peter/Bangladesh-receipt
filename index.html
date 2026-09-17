@@ -3,524 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- FIX 1: Stop Safari from turning phone numbers into blue links -->
 <meta name="format-detection" content="telephone=no">
-<title>bKash Receipt Generator</title>
+<title>Receipt Generator</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Include html2canvas for the download feature -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root {
-    --pink: #e6007e;
-    --pink-dark: #c2006a;
-    --gray: #888;
-    --border: #e5e5e5;
-    --bg: #f4f5f7;
+    --pink: #c2185b;
+    --pink-dark: #9c1244;
+    --gray: #757575;
+    --border: #e0e0e0;
+    --bg-light: #f8f9fa;
+    --bg-gray: #e5e7eb;
     --text-main: #000;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Hind Siliguri', sans-serif;
-    background: var(--bg);
+    font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-light);
     color: var(--text-main);
-    display: flex;
-    justify-content: center;
     padding: 20px;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
+  .app-container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
   
-  /* Layout */
-  .container {
-    display: flex;
-    gap: 30px;
-    width: 100%;
-    max-width: 1100px;
-    align-items: flex-start;
-  }
+  /* Header */
+  .app-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .app-header h1 { font-size: 24px; font-weight: 700; }
+  .app-header p { font-size: 14px; color: var(--gray); }
   
-  /* Left Panel - Edit Fields */
-  .editor-panel {
-    flex: 1;
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    max-width: 420px;
+  /* Template Pills */
+  .template-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+  .template-scroll::-webkit-scrollbar { display: none; }
+  .pill {
+    white-space: nowrap; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border);
+    background: #fff; color: var(--text-main); font-family: inherit; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
   }
-  .editor-panel h2 {
-    font-size: 18px;
-    margin-bottom: 20px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .form-group {
-    margin-bottom: 16px;
-  }
-  .form-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gray);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-  }
+  .pill:hover { border-color: var(--pink); color: var(--pink); }
+  .pill.active { background: var(--pink); color: #fff; border-color: var(--pink); }
+
+  /* Main Content */
+  .main-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: flex-start; }
+  
+  /* Editor Panel */
+  .editor-panel { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+  .editor-panel h2 { font-size: 18px; margin-bottom: 20px; font-weight: 700; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--gray); margin-bottom: 6px; text-transform: uppercase; }
   .form-group input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s;
-    color: #000;
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px;
+    font-family: inherit; font-size: 15px; outline: none; color: #000;
   }
-  .form-group input:focus {
-    border-color: var(--pink);
-  }
+  .form-group input:focus { border-color: var(--pink); }
   .download-btn {
-    width: 100%;
-    background: var(--pink);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
-    transition: background 0.2s;
+    width: 100%; background: var(--pink); color: #fff; border: none; border-radius: 8px; padding: 14px;
+    font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px;
   }
-  .download-btn:hover {
-    background: var(--pink-dark);
-  }
+  .download-btn:hover { background: var(--pink-dark); }
 
-  /* Right Panel - Preview */
+  /* Preview Panel */
   .preview-panel {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+    display: flex; justify-content: center; background: var(--bg-gray);
+    border-radius: 24px; padding: 40px 20px; min-height: 500px; position: relative;
   }
   
-  /* The Receipt Design (Will be captured by html2canvas) */
-  .receipt-wrapper {
-    /* FIX 2: Change background to pink. This prevents white patches at the bottom corners */
-    background: var(--pink); 
-    border-radius: 24px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    overflow: hidden;
-    width: 100%;
-    max-width: 400px;
-    /* FIX 3: Forces GPU rendering, fixes blurry text and white patches on iPad */
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-  }
-  
-  /* FIX 4: Explicitly set upper sections to white */
-  .header, .phone-section, .grid, .reference, .actions, .reward {
-    background-color: #fff;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-  }
-  .header-text {
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .pink { color: var(--pink); }
-  .bold { font-weight: 700; }
-  .check-circle {
-    width: 36px;
-    height: 36px;
-    border: 2px solid #22c55e;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #22c55e;
-  }
-  .divider { border-top: 1px solid var(--border); background-color: #fff; }
-  .phone-section {
-    display: flex;
-    align-items: center;
-    padding: 16px 20px;
-  }
-  .avatar {
-    width: 48px;
-    height: 48px;
-    background: #d9f0f7;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #00838f;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  .phone-numbers {
-    margin-left: 12px;
-    font-size: 16px;
-    line-height: 1.6;
-  }
- /* Force phone numbers to be black and have no underline */
-  .phone-numbers div,
-  .phone-numbers a,
-  .phone-numbers span {
-    color: #000 !important;
-    -webkit-text-fill-color: #000 !important; /* Ye iOS ka blue color hata dega */
-    text-decoration: none !important; /* Ye underline hata dega */
-    pointer-events: none; /* Ye number par click karne se rok dega */
-  }
-  .call-btn {
-    margin-left: auto;
-    border: 1.5px solid var(--pink);
-    color: var(--pink);
-    background: transparent;
-    border-radius: 999px;
-    padding: 8px 20px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-bottom: 1px solid var(--border);
-  }
-  .grid-item {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .grid-item:nth-child(odd) { border-right: 1px solid var(--border); }
-  .grid-item:nth-last-child(-n+2) { border-bottom: none; }
-  .label {
-    font-size: 12px;
-    color: var(--gray);
-    margin-bottom: 6px;
-  }
-  .value {
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #000;
-  }
-  .sub {
-    font-size: 13px;
-    color: var(--gray);
-    margin-top: 4px;
-  }
-  .icon { width: 18px; height: 18px; flex-shrink: 0; }
-  .icon-sm { width: 16px; height: 16px; }
-  .reference {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .reference .label { margin-bottom: 0; }
-  .reference .value { font-size: 14px; min-height: 20px; }
-  .actions {
-    display: flex;
-    gap: 12px;
-    padding: 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .action-btn {
-    flex: 1;
-    border: 1.5px solid var(--pink);
-    color: var(--pink);
-    background: transparent;
-    border-radius: 999px;
-    padding: 12px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-  }
-  .reward {
-    text-align: center;
-    padding: 24px 20px;
-  }
-  .reward-circle {
-    width: 56px;
-    height: 56px;
-    background: var(--pink);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 12px;
-    color: #fff;
-  }
-  .reward-sub { font-size: 14px; color: var(--gray); margin-bottom: 4px; }
-  .reward-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: #000; }
-  .reward-desc { font-size: 13px; color: #555; }
-  .reward-desc a { color: var(--pink); text-decoration: underline; font-weight: 500; }
-  
-  /* FIX 5: Bottom bar matches wrapper background and has no individual border radius */
-  .bottom-bar {
-    background: var(--pink);
-    color: #fff;
-    padding: 18px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 0; /* Let the main wrapper handle the rounded corners */
-    margin-bottom: 0;
-  }
-  .bottom-bar svg { width: 20px; height: 20px; }
-
-  /* Responsive for iPad / Mobile */
+  /* Responsive */
   @media (max-width: 850px) {
-    .container { flex-direction: column; align-items: center; }
-    .editor-panel { max-width: 100%; width: 100%; }
-    .preview-panel { width: 100%; }
+    .main-content { grid-template-columns: 1fr; }
+    .preview-panel { min-height: auto; }
   }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- Left Panel: Edit Fields -->
-  <div class="editor-panel">
-    <h2>EDIT FIELDS</h2>
-    
-    <div class="form-group">
-      <label>Recipient Phone</label>
-      <input type="tel" id="input-phone" value="01615856046" oninput="updatePreview()">
+<div class="app-container">
+  <header class="app-header">
+    <div>
+      <h1>Receipt Generator</h1>
+      <p>Edit and download payment receipts</p>
     </div>
-    <div class="form-group">
-      <label>Recipient Phone (Sub)</label>
-      <input type="tel" id="input-phone-sub" value="01615856046" oninput="updatePreview()">
-    </div>
-    <div class="form-group">
-      <label>Time (সময়)</label>
-      <input type="text" id="input-time" value="12:03pm 03/05/26" oninput="updatePreview()">
-    </div>
-    <div class="form-group">
-      <label>Transaction ID</label>
-      <input type="text" id="input-trxn" value="DE31R3ZP3X" oninput="updatePreview()">
-    </div>
-    <div class="form-group">
-      <label>Total (সর্বমোট)</label>
-      <input type="text" id="input-total" value="৳305.00" oninput="updatePreview()">
-    </div>
-    <div class="form-group">
-      <label>Deduction Breakdown</label>
-      <input type="text" id="input-deduction" value="৳300.00 + ৳5.00" oninput="updatePreview()">
-    </div>
-    <div class="form-group">
-      <label>New Balance (নতুন ব্যালেন্স)</label>
-      <input type="text" id="input-balance" value="৳200.10" oninput="updatePreview()">
-    </div>
-    <div class="form-group">
-      <label>Reference (রেফারেন্স)</label>
-      <input type="text" id="input-ref" value="" oninput="updatePreview()" placeholder="Add reference...">
-    </div>
+  </header>
 
-    <button class="download-btn" onclick="downloadReceipt()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-        <polyline points="7 10 12 15 17 10"></polyline>
-        <line x1="12" y1="15" x2="12" y2="3"></line>
-      </svg>
-      Download Receipt (PNG)
-    </button>
+  <!-- Template Buttons (Jab naya template aayega, yahan ek button add kar lenge) -->
+  <div class="template-scroll">
+    <button class="pill active" onclick="loadTemplate('t1.html', this)">bKash Received Money</button>
+    <button class="pill" onclick="loadTemplate('t2.html', this)">bKash Send Money (Full)</button>
+    <!-- Future templates will be added here -->
   </div>
 
-  <!-- Right Panel: Live Preview -->
-  <div class="preview-panel">
-    <!-- This ID is used by html2canvas -->
-    <div class="receipt-wrapper" id="receipt-preview">
-      
-      <div class="header">
-        <div class="header-text">
-          আপনার <span class="pink bold">সেন্ড মানি</span> সফল হয়েছে
-        </div>
-        <div class="check-circle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </div>
-      </div>
+  <div class="main-content">
+    <!-- Editor Panel -->
+    <div class="editor-panel">
+      <h2>EDIT FIELDS</h2>
+      <div class="form-group"><label>Account Number</label><input type="text" id="input-acc" value="01615856046" oninput="updatePreview()"></div>
+      <div class="form-group"><label>Time</label><input type="text" id="input-time" value="12:18pm 03/05/26" oninput="updatePreview()"></div>
+      <div class="form-group"><label>Amount</label><input type="text" id="input-amt" value="৳485.00" oninput="updatePreview()"></div>
+      <div class="form-group"><label>Charge</label><input type="text" id="input-charge" value="৳0.00" oninput="updatePreview()"></div>
+      <div class="form-group"><label>Transaction ID</label><input type="text" id="input-trxn" value="DE38R4P2YG" oninput="updatePreview()"></div>
+      <div class="form-group"><label>Reference</label><input type="text" id="input-ref" value="" oninput="updatePreview()" placeholder="Add reference..."></div>
+      <button class="download-btn" onclick="downloadReceipt()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download Receipt (PNG)
+      </button>
+    </div>
 
-      <div class="divider"></div>
-
-      <div class="phone-section">
-        <div class="avatar">0</div>
-        <div class="phone-numbers">
-          <div id="preview-phone">01615856046</div>
-          <div id="preview-phone-sub">01615856046</div>
-        </div>
-        <button class="call-btn">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-          </svg>
-          কল
-        </button>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="grid">
-        <div class="grid-item">
-          <div class="label">সময়</div>
-          <div class="value" id="preview-time">12:03pm 03/05/26</div>
-        </div>
-        <div class="grid-item">
-          <div class="label">ট্রানজেকশন আইডি</div>
-          <div class="value">
-            <span id="preview-trxn">DE31R3ZP3X</span>
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-          </div>
-        </div>
-        <div class="grid-item">
-          <div class="label">সর্বমোট</div>
-          <div class="value" id="preview-total">৳305.00</div>
-          <div class="sub" id="preview-deduction">৳300.00 + ৳5.00</div>
-        </div>
-        <div class="grid-item">
-          <div class="label">নতুন ব্যালেন্স</div>
-          <div class="value">
-            <span id="preview-balance">৳200.10</span>
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-              <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="reference">
-        <div class="label">রেফারেন্স</div>
-        <div class="value" id="preview-ref"></div>
-      </div>
-
-      <div class="actions">
-        <button class="action-btn">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-            <path d="M3 3v5h5"></path>
-            <path d="M12 7v5l4 2"></path>
-          </svg>
-          অ্যাটো পে চালু করুন
-        </button>
-        <button class="action-btn">
-          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-            <polyline points="16 6 12 2 8 6"></polyline>
-            <line x1="12" y1="2" x2="12" y2="15"></line>
-          </svg>
-          শেয়ার
-        </button>
-      </div>
-
-      <div class="reward">
-        <div class="reward-circle">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-        </div>
-        <div class="reward-sub">আপনি অর্জন করছেন</div>
-        <div class="reward-title">বিকাশ রিওয়ার্ড পয়েন্ট</div>
-        <div class="reward-desc">
-          পয়েন্ট ব্যবহার করতে <a href="#">বিকাশ রিওয়ার্ডস</a> চেক করুন!
-        </div>
-      </div>
-
-      <div class="bottom-bar">
-        <span>হোম-এ ফিরে যাই</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </div>
-
+    <!-- Preview Container (Yahan external file load hogi) -->
+    <div class="preview-panel" id="preview-container">
+      <div style="text-align:center; color: #888;">Loading template...</div>
     </div>
   </div>
 </div>
 
 <script>
-  // Function to update the preview text based on input fields
-  function updatePreview() {
-    const mappings = [
-      { input: 'input-phone', preview: 'preview-phone' },
-      { input: 'input-phone-sub', preview: 'preview-phone-sub' },
-      { input: 'input-time', preview: 'preview-time' },
-      { input: 'input-trxn', preview: 'preview-trxn' },
-      { input: 'input-total', preview: 'preview-total' },
-      { input: 'input-deduction', preview: 'preview-deduction' },
-      { input: 'input-balance', preview: 'preview-balance' },
-      { input: 'input-ref', preview: 'preview-ref' }
-    ];
+  // Function to load external HTML file into the preview container
+  async function loadTemplate(filename, btnElement) {
+    // Update active button state
+    document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
 
-    mappings.forEach(map => {
-      const inputEl = document.getElementById(map.input);
-      const previewEl = document.getElementById(map.preview);
-      if (inputEl && previewEl) {
-        previewEl.innerText = inputEl.value;
-      }
-    });
+    const container = document.getElementById('preview-container');
+    container.innerHTML = '<div style="text-align:center; color: #888; padding: 50px;">Loading...</div>';
+
+    try {
+      const response = await fetch(filename);
+      if (!response.ok) throw new Error('File not found');
+      const html = await response.text();
+      container.innerHTML = html;
+      
+      // After loading, immediately update the preview with current field values
+      updatePreview();
+      
+      // iOS Auto-link remover
+      const phoneDivs = container.querySelectorAll('.phone-number-display');
+      phoneDivs.forEach(div => {
+        const links = div.querySelectorAll('a');
+        links.forEach(link => link.replaceWith(link.innerText));
+      });
+
+    } catch (error) {
+      container.innerHTML = '<div style="text-align:center; color: red; padding: 50px;">Error loading template. Make sure the file exists.</div>';
+    }
   }
 
-  // Function to download the receipt as PNG
+  // Update Preview Inputs dynamically
+  function updatePreview() {
+    const acc = document.getElementById('input-acc').value;
+    const time = document.getElementById('input-time').value;
+    const amt = document.getElementById('input-amt').value;
+    const charge = document.getElementById('input-charge').value;
+    const trxn = document.getElementById('input-trxn').value;
+    const ref = document.getElementById('input-ref').value;
+
+    // Mapping dictionary: Input ID -> Preview Element ID
+    const mappings = {
+      'p-acc': acc,
+      'p-acc-sub': acc,
+      'p-time': time,
+      'p-amt': amt,
+      'p-charge': charge,
+      'p-trxn': trxn,
+      'p-ref': ref
+    };
+
+    // Loop through mappings and update text if element exists
+    for (const [previewId, value] of Object.entries(mappings)) {
+      const el = document.getElementById(previewId);
+      if (el) el.innerText = value;
+    }
+  }
+
+  // Download Receipt Logic
   function downloadReceipt() {
-    const receipt = document.getElementById('receipt-preview');
+    // Find the currently loaded template inside the container
+    const activePreview = document.querySelector('#preview-container > div');
+    if (!activePreview) return;
+
     const btn = document.querySelector('.download-btn');
-    
-    // Change button text temporarily
     const originalText = btn.innerHTML;
     btn.innerHTML = 'Generating...';
     btn.disabled = true;
 
-    // Use html2canvas to capture the element
-    html2canvas(receipt, {
-      scale: 2, // Higher scale for better quality on retina screens
-      backgroundColor: null, // Set to null to preserve the rounded corners transparently
+    html2canvas(activePreview, {
+      scale: 2,
+      backgroundColor: '#ffffff',
       useCORS: true
     }).then(canvas => {
-      // Create a temporary link to download the image
       const link = document.createElement('a');
-      link.download = 'bkash-receipt-' + document.getElementById('input-trxn').value + '.png';
+      const trxnId = document.getElementById('input-trxn').value || 'receipt';
+      link.download = 'receipt-' + trxnId + '.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
-
-      // Restore button
       btn.innerHTML = originalText;
       btn.disabled = false;
     }).catch(err => {
-      console.error('Error generating image:', err);
-      alert('Failed to generate image. Please try again.');
+      console.error(err);
+      alert('Failed to generate image.');
       btn.innerHTML = originalText;
       btn.disabled = false;
     });
   }
-</script>
 
+  // Load the first template on startup
+  window.onload = () => loadTemplate('t1.html', document.querySelector('.pill'));
+</script>
 </body>
 </html>
