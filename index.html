@@ -3,33 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Payment Success</title>
+<title>bKash Receipt Generator</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Include html2canvas for the download feature -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root {
     --pink: #e6007e;
     --pink-dark: #c2006a;
     --gray: #888;
     --border: #e5e5e5;
-    /* --bg: #e0e0e0;  <-- Removed the grey background variable */
+    --bg: #f4f5f7;
+    --text-main: #000;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Hind Siliguri', sans-serif;
-    background: #ffffff; /* Changed to white so no grey background */
+    background: var(--bg);
+    color: var(--text-main);
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     padding: 20px;
+    min-height: 100vh;
   }
-  .card {
+  
+  /* Layout */
+  .container {
+    display: flex;
+    gap: 30px;
     width: 100%;
+    max-width: 1100px;
+    align-items: flex-start;
+  }
+  
+  /* Left Panel - Edit Fields */
+  .editor-panel {
+    flex: 1;
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     max-width: 420px;
+  }
+  .editor-panel h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus {
+    border-color: var(--pink);
+  }
+  .download-btn {
+    width: 100%;
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    transition: background 0.2s;
+  }
+  .download-btn:hover {
+    background: var(--pink-dark);
+  }
+
+  /* Right Panel - Preview */
+  .preview-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* The Receipt Design (Will be captured by html2canvas) */
+  .receipt-wrapper {
     background: #fff;
     border-radius: 24px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    /* Prevents blurry text in html2canvas */
+    -webkit-font-smoothing: antialiased;
   }
   .header {
     display: flex;
@@ -40,7 +124,6 @@
   .header-text {
     font-size: 16px;
     font-weight: 600;
-    color: #000;
   }
   .pink { color: var(--pink); }
   .bold { font-weight: 700; }
@@ -76,7 +159,6 @@
     margin-left: 12px;
     font-size: 16px;
     line-height: 1.6;
-    color: #000;
   }
   .call-btn {
     margin-left: auto;
@@ -91,7 +173,6 @@
     font-size: 14px;
     font-weight: 500;
     font-family: inherit;
-    cursor: pointer;
   }
   .grid {
     display: grid;
@@ -102,12 +183,8 @@
     padding: 16px 20px;
     border-bottom: 1px solid var(--border);
   }
-  .grid-item:nth-child(odd) {
-    border-right: 1px solid var(--border);
-  }
-  .grid-item:nth-last-child(-n+2) {
-    border-bottom: none;
-  }
+  .grid-item:nth-child(odd) { border-right: 1px solid var(--border); }
+  .grid-item:nth-last-child(-n+2) { border-bottom: none; }
   .label {
     font-size: 12px;
     color: var(--gray);
@@ -116,7 +193,6 @@
   .value {
     font-size: 16px;
     font-weight: 500;
-    color: #000;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -133,6 +209,7 @@
     border-bottom: 1px solid var(--border);
   }
   .reference .label { margin-bottom: 0; }
+  .reference .value { font-size: 14px; min-height: 20px; }
   .actions {
     display: flex;
     gap: 12px;
@@ -153,7 +230,6 @@
     font-size: 14px;
     font-weight: 500;
     font-family: inherit;
-    cursor: pointer;
   }
   .reward {
     text-align: center;
@@ -170,26 +246,10 @@
     margin: 0 auto 12px;
     color: #fff;
   }
-  .reward-sub {
-    font-size: 14px;
-    color: var(--gray);
-    margin-bottom: 4px;
-  }
-  .reward-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #000;
-    margin-bottom: 6px;
-  }
-  .reward-desc {
-    font-size: 13px;
-    color: #555;
-  }
-  .reward-desc a {
-    color: var(--pink);
-    text-decoration: underline;
-    font-weight: 500;
-  }
+  .reward-sub { font-size: 14px; color: var(--gray); margin-bottom: 4px; }
+  .reward-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .reward-desc { font-size: 13px; color: #555; }
+  .reward-desc a { color: var(--pink); text-decoration: underline; font-weight: 500; }
   .bottom-bar {
     background: var(--pink);
     color: #fff;
@@ -201,121 +261,236 @@
     font-weight: 600;
   }
   .bottom-bar svg { width: 20px; height: 20px; }
+
+  /* Responsive for iPad / Mobile */
+  @media (max-width: 850px) {
+    .container { flex-direction: column; align-items: center; }
+    .editor-panel { max-width: 100%; width: 100%; }
+    .preview-panel { width: 100%; }
+  }
 </style>
 </head>
 <body>
-  <div class="card">
-    <!-- Header -->
-    <div class="header">
-      <div class="header-text">
-        আপনার <span class="pink bold">সেন্ড মানি</span> সফল হয়েছে
-      </div>
-      <div class="check-circle">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
+
+<div class="container">
+  <!-- Left Panel: Edit Fields -->
+  <div class="editor-panel">
+    <h2>EDIT FIELDS</h2>
+    
+    <div class="form-group">
+      <label>Recipient Phone</label>
+      <input type="text" id="input-phone" value="01615856046" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>Recipient Phone (Sub)</label>
+      <input type="text" id="input-phone-sub" value="01615856046" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>Time (সময়)</label>
+      <input type="text" id="input-time" value="12:03pm 03/05/26" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>Transaction ID</label>
+      <input type="text" id="input-trxn" value="DE31R3ZP3X" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>Total (সর্বমোট)</label>
+      <input type="text" id="input-total" value="৳305.00" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>Deduction Breakdown</label>
+      <input type="text" id="input-deduction" value="৳300.00 + ৳5.00" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>New Balance (নতুন ব্যালেন্স)</label>
+      <input type="text" id="input-balance" value="৳200.10" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>Reference (রেফারেন্স)</label>
+      <input type="text" id="input-ref" value="" oninput="updatePreview()" placeholder="Add reference...">
     </div>
 
-    <div class="divider"></div>
-
-    <!-- Phone Section -->
-    <div class="phone-section">
-      <div class="avatar">0</div>
-      <div class="phone-numbers">
-        <div>01615856046</div>
-        <div>01615856046</div>
-      </div>
-      <button class="call-btn">
-        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-        </svg>
-        কল
-      </button>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Grid -->
-    <div class="grid">
-      <div class="grid-item">
-        <div class="label">সময়</div>
-        <div class="value">12:03pm 03/05/26</div>
-      </div>
-      <div class="grid-item">
-        <div class="label">ট্রানজেকশন আইডি</div>
-        <div class="value">
-          DE31R3ZP3X
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="grid-item">
-        <div class="label">সর্বমোট</div>
-        <div class="value">৳305.00</div>
-        <div class="sub">৳300.00 + ৳5.00</div>
-      </div>
-      <div class="grid-item">
-        <div class="label">নতুন ব্যালেন্স</div>
-        <div class="value">
-          ৳200.10
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-            <line x1="1" y1="1" x2="23" y2="23"></line>
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- Reference -->
-    <div class="reference">
-      <div class="label">রেফারেন্স</div>
-    </div>
-
-    <!-- Actions -->
-    <div class="actions">
-      <button class="action-btn">
-        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-          <path d="M3 3v5h5"></path>
-          <path d="M12 7v5l4 2"></path>
-        </svg>
-        অ্যাটো পে চালু করুন
-      </button>
-      <button class="action-btn">
-        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-          <polyline points="16 6 12 2 8 6"></polyline>
-          <line x1="12" y1="2" x2="12" y2="15"></line>
-        </svg>
-        শেয়ার
-      </button>
-    </div>
-
-    <!-- Reward -->
-    <div class="reward">
-      <div class="reward-circle">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-        </svg>
-      </div>
-      <div class="reward-sub">আপনি অর্জন করছেন</div>
-      <div class="reward-title">বিকাশ রিওয়ার্ড পয়েন্ট</div>
-      <div class="reward-desc">
-        পয়েন্ট ব্যবহার করতে <a href="#">বিকাশ রিওয়ার্ডস</a> চেক করুন!
-      </div>
-    </div>
-
-    <!-- Bottom Bar -->
-    <div class="bottom-bar">
-      <span>হোম-এ ফিরে যাই</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
+    <button class="download-btn" onclick="downloadReceipt()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
       </svg>
+      Download Receipt (PNG)
+    </button>
+  </div>
+
+  <!-- Right Panel: Live Preview -->
+  <div class="preview-panel">
+    <!-- This ID is used by html2canvas -->
+    <div class="receipt-wrapper" id="receipt-preview">
+      
+      <div class="header">
+        <div class="header-text">
+          আপনার <span class="pink bold">সেন্ড মানি</span> সফল হয়েছে
+        </div>
+        <div class="check-circle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="phone-section">
+        <div class="avatar">0</div>
+        <div class="phone-numbers">
+          <div id="preview-phone">01615856046</div>
+          <div id="preview-phone-sub">01615856046</div>
+        </div>
+        <button class="call-btn">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          কল
+        </button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="grid">
+        <div class="grid-item">
+          <div class="label">সময়</div>
+          <div class="value" id="preview-time">12:03pm 03/05/26</div>
+        </div>
+        <div class="grid-item">
+          <div class="label">ট্রানজেকশন আইডি</div>
+          <div class="value">
+            <span id="preview-trxn">DE31R3ZP3X</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="grid-item">
+          <div class="label">সর্বমোট</div>
+          <div class="value" id="preview-total">৳305.00</div>
+          <div class="sub" id="preview-deduction">৳300.00 + ৳5.00</div>
+        </div>
+        <div class="grid-item">
+          <div class="label">নতুন ব্যালেন্স</div>
+          <div class="value">
+            <span id="preview-balance">৳200.10</span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="reference">
+        <div class="label">রেফারেন্স</div>
+        <div class="value" id="preview-ref"></div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+            <path d="M12 7v5l4 2"></path>
+          </svg>
+          অ্যাটো পে চালু করুন
+        </button>
+        <button class="action-btn">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+          </svg>
+          শেয়ার
+        </button>
+      </div>
+
+      <div class="reward">
+        <div class="reward-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div class="reward-sub">আপনি অর্জন করছেন</div>
+        <div class="reward-title">বিকাশ রিওয়ার্ড পয়েন্ট</div>
+        <div class="reward-desc">
+          পয়েন্ট ব্যবহার করতে <a href="#">বিকাশ রিওয়ার্ডস</a> চেক করুন!
+        </div>
+      </div>
+
+      <div class="bottom-bar">
+        <span>হোম-এ ফিরে যাই</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </div>
+
     </div>
   </div>
+</div>
+
+<script>
+  // Function to update the preview text based on input fields
+  function updatePreview() {
+    const mappings = [
+      { input: 'input-phone', preview: 'preview-phone' },
+      { input: 'input-phone-sub', preview: 'preview-phone-sub' },
+      { input: 'input-time', preview: 'preview-time' },
+      { input: 'input-trxn', preview: 'preview-trxn' },
+      { input: 'input-total', preview: 'preview-total' },
+      { input: 'input-deduction', preview: 'preview-deduction' },
+      { input: 'input-balance', preview: 'preview-balance' },
+      { input: 'input-ref', preview: 'preview-ref' }
+    ];
+
+    mappings.forEach(map => {
+      const inputEl = document.getElementById(map.input);
+      const previewEl = document.getElementById(map.preview);
+      if (inputEl && previewEl) {
+        previewEl.innerText = inputEl.value;
+      }
+    });
+  }
+
+  // Function to download the receipt as PNG
+  function downloadReceipt() {
+    const receipt = document.getElementById('receipt-preview');
+    const btn = document.querySelector('.download-btn');
+    
+    // Change button text temporarily
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Generating...';
+    btn.disabled = true;
+
+    // Use html2canvas to capture the element
+    html2canvas(receipt, {
+      scale: 2, // Higher scale for better quality on retina screens
+      backgroundColor: '#ffffff', // Ensure background is white, not transparent
+      useCORS: true
+    }).then(canvas => {
+      // Create a temporary link to download the image
+      const link = document.createElement('a');
+      link.download = 'bkash-receipt-' + document.getElementById('input-trxn').value + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      // Restore button
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }).catch(err => {
+      console.error('Error generating image:', err);
+      alert('Failed to generate image. Please try again.');
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    });
+  }
+</script>
+
 </body>
 </html>
