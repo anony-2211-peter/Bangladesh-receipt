@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
 <title>Receipt Generator</title>
-<!-- Fonts: Inter for English, Hind Siliguri for Bengali -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -34,19 +33,33 @@
   .app-header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
   .app-header p { font-size: 15px; color: var(--gray); margin-top: 4px; }
   
-  /* Dropdown (Visual only) */
+  /* Dropdown */
   .dropdown {
     background: #fff; border: 1px solid var(--border); padding: 10px 20px; border-radius: 12px;
     font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--text-main);
   }
 
-  /* Template Pills Container (Flex-wrap to show all buttons like the image) */
-  .template-container { display: flex; flex-wrap: wrap; gap: 10px; }
+  /* FIX 1: Template Buttons in 2 Columns Grid */
+  .template-container { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /* Ye exactly 2 column banayega */
+    gap: 10px; 
+    width: 100%;
+  }
   
   .pill {
-    white-space: nowrap; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--border);
-    background: #fff; color: var(--text-main); font-family: inherit; font-size: 15px; font-weight: 600;
-    cursor: pointer; transition: all 0.2s;
+    width: 100%; /* Button grid ki puri width lega */
+    text-align: center;
+    padding: 12px 10px; 
+    border-radius: 999px; 
+    border: 1px solid var(--border);
+    background: #fff; 
+    color: var(--text-main); 
+    font-family: inherit; 
+    font-size: 14px; 
+    font-weight: 600;
+    cursor: pointer; 
+    transition: all 0.2s;
   }
   .pill:hover { border-color: var(--pink); color: var(--pink); }
   .pill.active { background: var(--pink); color: #fff; border-color: var(--pink); }
@@ -71,7 +84,7 @@
     border-radius: 24px; padding: 40px 20px; min-height: 500px; position: relative;
   }
   
-  /* Global styles for templates */
+  /* Form Styles */
   .form-group { margin-bottom: 16px; }
   .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
   .form-group input, .form-group select {
@@ -80,16 +93,17 @@
   }
   .form-group input:focus { border-color: var(--pink); }
 
-  /* Coming Soon Placeholder */
-  .coming-soon {
-    text-align: center; padding: 60px 20px; color: var(--gray);
-  }
-  .coming-soon h3 { font-size: 20px; font-weight: 700; color: var(--text-main"); margin-bottom: 8px; }
+  /* Coming Soon */
+  .coming-soon { text-align: center; padding: 60px 20px; color: var(--gray); }
+  .coming-soon h3 { font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
   .coming-soon p { font-size: 14px; }
 
+  /* Mobile Responsive */
   @media (max-width: 850px) {
     .main-content { grid-template-columns: 1fr; }
     .preview-panel { min-height: auto; }
+    /* Chhote phone me 1 column ho jayega, iPad me 2 hi rahega */
+    .template-container { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
   }
 </style>
 </head>
@@ -108,10 +122,10 @@
     </select>
   </header>
 
-  <!-- All Template Buttons -->
+  <!-- FIX 2: Clean Buttons (Koi extra text nahi) -->
   <div class="template-container" id="template-buttons">
     <button class="pill active" onclick="loadTemplate('t1.html', this)">bKash Received Money</button>
- onclick   =" <buttonload class="pill" onclick="loadTemplate('t2.html', thisTemplate)">bKash Send(' Money (Full)</button>
+    <button class="pill" onclick="loadTemplate('t2.html', this)">bKash Send Money (Full)</button>
     <button class="pill" onclick="loadTemplate('t3.html', this)">bKash Send Money (Simple)</button>
     <button class="pill" onclick="loadTemplate('t4.html', this)">bKash Send Money (Minimal)</button>
     <button class="pill" onclick="loadTemplate('t5.html', this)">bKash Transaction Item</button>
@@ -127,7 +141,7 @@
     <button class="pill" onclick="loadTemplate('t15.html', this)">Nagad Push Notification</button>
     <button class="pill" onclick="loadTemplate('t16.html', this)">bKash Image Receipt (Full)</button>
     <button class="pill" onclick="loadTemplate('t17.html', this)">bKash Image Receipt (Simple)</button>
-    <button class="pillt18.html', this)">Nagad Image Receipt</button>
+    <button class="pill" onclick="loadTemplate('t18.html', this)">Nagad Image Receipt</button>
   </div>
 
   <div class="main-content">
@@ -155,9 +169,7 @@
 </div>
 
 <script>
-  // 1. Template Loader Function
   async function loadTemplate(filename, btnElement) {
-    // Update active button state
     document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
 
@@ -169,36 +181,19 @@
 
     try {
       const response = await fetch(filename);
-      
-      // Agar file nahi milti hai (404), toh Coming Soon dikhao
-      if (!response.ok) {
-        throw new Error('File not found');
-      }
+      if (!response.ok) throw new Error('File not found');
       
       const html = await response.text();
-      
-      // Parse the HTML string into a DOM object
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
       
-      // Extract the form and preview parts
       const formContent = doc.querySelector('.template-form');
       const previewContent = doc.querySelector('.template-preview');
       const styleContent = doc.querySelector('style');
 
-      if (formContent) {
-        formContainer.innerHTML = formContent.innerHTML;
-      } else {
-        formContainer.innerHTML = '<p style="color: #888; text-align: center;">No form found in this template.</p>';
-      }
+      formContainer.innerHTML = formContent ? formContent.innerHTML : '<p style="color: #888; text-align: center;">No form found.</p>';
+      previewContainer.innerHTML = previewContent ? previewContent.outerHTML : '<p style="color: #888; text-align: center;">No preview found.</p>';
 
-      if (previewContent) {
-        previewContainer.innerHTML = previewContent.outerHTML;
-      } else {
-        previewContainer.innerHTML = '<p style="color: #888; text-align: center;">No preview found in this template.</p>';
-      }
-
-      // Inject template specific CSS if present
       if (styleContent) {
         document.querySelectorAll('.template-style').forEach(el => el.remove());
         const newStyle = document.createElement('style');
@@ -207,33 +202,18 @@
         document.head.appendChild(newStyle);
       }
 
-      // Bind inputs to preview elements
       bindInputsToPreview();
 
     } catch (error) {
-      // File nahi milne par (Coming Soon) ka message
-      formContainer.innerHTML = `
-        <div class="coming-soon">
-          <h3>Coming Soon</h3>
-          <p>This template is under development.</p>
-        </div>`;
-      previewContainer.innerHTML = `
-        <div class="coming-soon">
-          <h3>Coming Soon</h3>
-          <p>Is template ka code abhi upload nahi hua hai.</p>
-        </div>`;
+      formContainer.innerHTML = `<div class="coming-soon"><h3>Coming Soon</h3><p>This template is under development.</p></div>`;
+      previewContainer.innerHTML = `<div class="coming-soon"><h3>Coming Soon</h3><p>Is template ka code abhi upload nahi hua hai.</p></div>`;
     }
   }
 
-  // 2. Bind Inputs: Jo bhi input change ho, preview me update ho jaye
   function bindInputsToPreview() {
     const inputs = document.querySelectorAll('#form-container input, #form-container select');
-    
     inputs.forEach(input => {
-      // Initial Sync
       updatePreviewField(input);
-      
-      // Event Listener
       input.addEventListener('input', () => updatePreviewField(input));
       input.addEventListener('change', () => updatePreviewField(input));
     });
@@ -243,13 +223,10 @@
     const targetId = input.getAttribute('data-preview-target');
     if (targetId) {
       const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.innerText = input.value;
-      }
+      if (targetEl) targetEl.innerText = input.value;
     }
   }
 
-  // 3. Download Receipt Logic
   function downloadReceipt() {
     const previewContainer = document.getElementById('preview-container');
     const activePreview = previewContainer.firstElementChild;
@@ -264,19 +241,14 @@
     btn.innerHTML = 'Generating...';
     btn.disabled = true;
 
-    html2canvas(activePreview, {
-      scale: 2,
-      backgroundColor: '#ffffff',
-      useCORS: true
-    }).then(canvas => {
+    html2canvas(activePreview, { scale: 2, backgroundColor: '#ffffff', useCORS: true })
+    .then(canvas => {
       const link = document.createElement('a');
       const trxnInput = document.querySelector('#form-container input[data-preview-target*="trxn"]');
       const trxnId = trxnInput ? trxnInput.value : 'receipt';
-      
       link.download = 'receipt-' + trxnId + '.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
-      
       btn.innerHTML = originalText;
       btn.disabled = false;
     }).catch(err => {
@@ -287,7 +259,6 @@
     });
   }
 
-  // Load the first template on startup
   window.onload = () => loadTemplate('t1.html', document.querySelector('.pill'));
 </script>
 </body>
