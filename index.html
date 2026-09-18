@@ -241,7 +241,7 @@
     btn.innerHTML = 'Generating...';
     btn.disabled = true;
 
-    html2canvas(activePreview, { scale: 2, backgroundColor: '#ffffff', useCORS: true })
+    html2canvas(activePreview, { scale: 2, backgroundColor: null, useCORS: true })
     .then(canvas => {
       const link = document.createElement('a');
       const trxnInput = document.querySelector('#form-container input[data-preview-target*="trxn"]');
