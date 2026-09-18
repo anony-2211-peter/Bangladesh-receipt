@@ -5,40 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
 <title>Receipt Generator</title>
+<!-- Fonts: Inter for English, Hind Siliguri for Bengali -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root {
-    --pink: #c2185b;
-    --pink-dark: #9c1244;
-    --gray: #757575;
-    --border: #e0e0e0;
-    --bg-light: #f8f9fa;
-    --bg-gray: #e5e7eb;
-    --text-main: #000;
+    --pink: #C2185B;
+    --pink-dark: #9C1244;
+    --gray: #6B7280;
+    --border: #E5E7EB;
+    --bg-light: #F9FAFB;
+    --bg-gray: #F3F4F6;
+    --text-main: #111827;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Inter', 'Hind Siliguri', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', 'Hind Siliguri', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--bg-light);
     color: var(--text-main);
     padding: 20px;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
-  .app-container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .app-container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
   
   /* Header */
   .app-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-  .app-header h1 { font-size: 24px; font-weight: 700; }
-  .app-header p { font-size: 14px; color: var(--gray); }
+  .app-header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  .app-header p { font-size: 15px; color: var(--gray); margin-top: 4px; }
   
-  /* Template Pills */
-  .template-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-  .template-scroll::-webkit-scrollbar { display: none; }
+  /* Dropdown (Visual only) */
+  .dropdown {
+    background: #fff; border: 1px solid var(--border); padding: 10px 20px; border-radius: 12px;
+    font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; color: var(--text-main);
+  }
+
+  /* Template Pills Container (Flex-wrap to show all buttons like the image) */
+  .template-container { display: flex; flex-wrap: wrap; gap: 10px; }
+  
   .pill {
-    white-space: nowrap; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border);
-    background: #fff; color: var(--text-main); font-family: inherit; font-size: 14px; font-weight: 500;
+    white-space: nowrap; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--border);
+    background: #fff; color: var(--text-main); font-family: inherit; font-size: 15px; font-weight: 600;
     cursor: pointer; transition: all 0.2s;
   }
   .pill:hover { border-color: var(--pink); color: var(--pink); }
@@ -48,12 +55,13 @@
   .main-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: flex-start; }
   
   /* Editor Panel */
-  .editor-panel { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-  .editor-panel h2 { font-size: 18px; margin-bottom: 20px; font-weight: 700; }
+  .editor-panel { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid var(--border); }
+  .editor-panel h2 { font-size: 18px; margin-bottom: 20px; font-weight: 700; color: var(--text-main); }
   .download-btn {
-    width: 100%; background: var(--pink); color: #fff; border: none; border-radius: 8px; padding: 14px;
+    width: 100%; background: var(--pink); color: #fff; border: none; border-radius: 10px; padding: 16px;
     font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px;
+    display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 24px;
+    transition: background 0.2s;
   }
   .download-btn:hover { background: var(--pink-dark); }
 
@@ -65,12 +73,19 @@
   
   /* Global styles for templates */
   .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--gray); margin-bottom: 6px; text-transform: uppercase; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
   .form-group input, .form-group select {
-    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px;
-    font-family: inherit; font-size: 15px; outline: none; color: #000;
+    width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px;
+    font-family: inherit; font-size: 15px; outline: none; color: var(--text-main); transition: border-color 0.2s;
   }
   .form-group input:focus { border-color: var(--pink); }
+
+  /* Coming Soon Placeholder */
+  .coming-soon {
+    text-align: center; padding: 60px 20px; color: var(--gray);
+  }
+  .coming-soon h3 { font-size: 20px; font-weight: 700; color: var(--text-main"); margin-bottom: 8px; }
+  .coming-soon p { font-size: 14px; }
 
   @media (max-width: 850px) {
     .main-content { grid-template-columns: 1fr; }
@@ -86,31 +101,55 @@
       <h1>Receipt Generator</h1>
       <p>Edit and download payment receipts</p>
     </div>
+    <select class="dropdown">
+      <option>সব Template</option>
+      <option>bKash</option>
+      <option>Nagad</option>
+    </select>
   </header>
 
-  <!-- Template Buttons: Naya template aane par bas yahan ek button add karna hai -->
-  <div class="template-scroll" id="template-buttons">
+  <!-- All Template Buttons -->
+  <div class="template-container" id="template-buttons">
     <button class="pill active" onclick="loadTemplate('t1.html', this)">bKash Received Money</button>
-    <button class="pill" onclick="loadTemplate('t2.html', this)">bKash Send Money (Full)</button>
-    <!-- <button class="pill" onclick="loadTemplate('t3.html', this)">Nagad Cash In</button> -->
+ onclick   =" <buttonload class="pill" onclick="loadTemplate('t2.html', thisTemplate)">bKash Send(' Money (Full)</button>
+    <button class="pill" onclick="loadTemplate('t3.html', this)">bKash Send Money (Simple)</button>
+    <button class="pill" onclick="loadTemplate('t4.html', this)">bKash Send Money (Minimal)</button>
+    <button class="pill" onclick="loadTemplate('t5.html', this)">bKash Transaction Item</button>
+    <button class="pill" onclick="loadTemplate('t6.html', this)">bKash রিসিভড মানি (বাংলা)</button>
+    <button class="pill" onclick="loadTemplate('t7.html', this)">bKash Push Notification</button>
+    <button class="pill" onclick="loadTemplate('t8.html', this)">bKash SMS Bubble</button>
+    <button class="pill" onclick="loadTemplate('t9.html', this)">Nagad Green (Send Money)</button>
+    <button class="pill" onclick="loadTemplate('t10.html', this)">Nagad Orange (Send Money)</button>
+    <button class="pill" onclick="loadTemplate('t11.html', this)">Nagad Cash In</button>
+    <button class="pill" onclick="loadTemplate('t12.html', this)">Nagad Received Money</button>
+    <button class="pill" onclick="loadTemplate('t13.html', this)">Nagad SMS Notification</button>
+    <button class="pill" onclick="loadTemplate('t14.html', this)">Nagad SMS (Chat Bubble)</button>
+    <button class="pill" onclick="loadTemplate('t15.html', this)">Nagad Push Notification</button>
+    <button class="pill" onclick="loadTemplate('t16.html', this)">bKash Image Receipt (Full)</button>
+    <button class="pill" onclick="loadTemplate('t17.html', this)">bKash Image Receipt (Simple)</button>
+    <button class="pillt18.html', this)">Nagad Image Receipt</button>
   </div>
 
   <div class="main-content">
-    <!-- Editor Panel (Form yahan load hoga) -->
+    <!-- Editor Panel -->
     <div class="editor-panel">
       <h2>EDIT FIELDS</h2>
       <div id="form-container">
-        <div style="text-align:center; color: #888; padding: 20px;">Loading form...</div>
+        <div class="coming-soon">
+          <h3>Loading...</h3>
+        </div>
       </div>
       <button class="download-btn" onclick="downloadReceipt()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         Download Receipt (PNG)
       </button>
     </div>
 
-    <!-- Preview Panel (Receipt yahan load hoga) -->
+    <!-- Preview Panel -->
     <div class="preview-panel" id="preview-container">
-      <div style="text-align:center; color: #888;">Loading preview...</div>
+      <div class="coming-soon">
+        <h3>Loading...</h3>
+      </div>
     </div>
   </div>
 </div>
@@ -130,7 +169,12 @@
 
     try {
       const response = await fetch(filename);
-      if (!response.ok) throw new Error('File not found');
+      
+      // Agar file nahi milti hai (404), toh Coming Soon dikhao
+      if (!response.ok) {
+        throw new Error('File not found');
+      }
+      
       const html = await response.text();
       
       // Parse the HTML string into a DOM object
@@ -145,18 +189,17 @@
       if (formContent) {
         formContainer.innerHTML = formContent.innerHTML;
       } else {
-        formContainer.innerHTML = '<p>No form found in this template.</p>';
+        formContainer.innerHTML = '<p style="color: #888; text-align: center;">No form found in this template.</p>';
       }
 
       if (previewContent) {
         previewContainer.innerHTML = previewContent.outerHTML;
       } else {
-        previewContainer.innerHTML = '<p>No preview found in this template.</p>';
+        previewContainer.innerHTML = '<p style="color: #888; text-align: center;">No preview found in this template.</p>';
       }
 
       // Inject template specific CSS if present
       if (styleContent) {
-        // Remove old template styles
         document.querySelectorAll('.template-style').forEach(el => el.remove());
         const newStyle = document.createElement('style');
         newStyle.className = 'template-style';
@@ -168,9 +211,17 @@
       bindInputsToPreview();
 
     } catch (error) {
-      console.error(error);
-      formContainer.innerHTML = '<p style="color:red;">Error loading form.</p>';
-      previewContainer.innerHTML = '<p style="color:red;">Error loading preview.</p>';
+      // File nahi milne par (Coming Soon) ka message
+      formContainer.innerHTML = `
+        <div class="coming-soon">
+          <h3>Coming Soon</h3>
+          <p>This template is under development.</p>
+        </div>`;
+      previewContainer.innerHTML = `
+        <div class="coming-soon">
+          <h3>Coming Soon</h3>
+          <p>Is template ka code abhi upload nahi hua hai.</p>
+        </div>`;
     }
   }
 
@@ -203,7 +254,10 @@
     const previewContainer = document.getElementById('preview-container');
     const activePreview = previewContainer.firstElementChild;
     
-    if (!activePreview) return;
+    if (!activePreview || activePreview.classList.contains('coming-soon')) {
+      alert('Please select a valid template first.');
+      return;
+    }
 
     const btn = document.querySelector('.download-btn');
     const originalText = btn.innerHTML;
