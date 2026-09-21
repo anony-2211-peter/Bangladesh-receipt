@@ -1,0 +1,45 @@
+<!-- t8.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>AMOUNT (E.G. TK 486.00)</label>
+    <input type="text" data-preview-target="t8-amt" value="Tk 486.00">
+  </div>
+  <div class="form-group">
+    <label>RECEIVER NUMBER</label>
+    <input type="text" data-preview-target="t8-receiver" value="01839018328">
+  </div>
+  <div class="form-group">
+    <label>REF NAME</label>
+    <input type="text" data-preview-target="t8-ref" value="Sojib">
+  </div>
+  <div class="form-group">
+    <label>FEE (E.G. TK 5.00)</label>
+    <input type="text" data-preview-target="t8-fee" value="Tk 5.00">
+  </div>
+  <div class="form-group">
+    <label>BALANCE</label>
+    <input type="text" data-preview-target="t8-balance" value="Tk 149.55">
+  </div>
+  <div class="form-group">
+    <label>TRXID</label>
+    <input type="text" data-preview-target="t8-trxid" value="5HQ43JXJ5K">
+  </div>
+  <div class="form-group">
+    <label>DATE & TIME</label>
+    <input type="text" data-preview-target="t8-datetime" value="26/08/2018 10:54">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Exact SMS Bubble Design) -->
+<div class="template-preview" style="background:#F3F4F6; border-radius: 12px; padding: 30px 20px; width: 100%; max-width: 400px; margin: 0 auto; box-sizing: border-box; display: flex; justify-content: flex-start;">
+  
+  <!-- SMS Bubble -->
+  <!-- Border radius me bottom-left corner sharp rakha hai taaki typical left-aligned SMS bubble lage -->
+  <div style="background: #E5E7EB; border-radius: 18px 18px 18px 4px; padding: 16px 18px; max-width: 90%; box-shadow: 0 1px 2px rgba(0,0,0,0.05); box-sizing: border-box;">
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Hind Siliguri', sans-serif; font-size: 15px; color: #111827; line-height: 1.5; word-wrap: break-word;">
+      Send Money <span id="t8-amt">Tk 486.00</span> to <span id="t8-receiver">01839018328</span> successful. Ref <span id="t8-ref">Sojib</span>. Fee <span id="t8-fee">Tk 5.00</span>. Balance <span id="t8-balance">Tk 149.55</span>. TrxID <span id="t8-trxid">5HQ43JXJ5K</span> at <span id="t8-datetime">26/08/2018 10:54</span>
+    </div>
+  </div>
+
+</div>
