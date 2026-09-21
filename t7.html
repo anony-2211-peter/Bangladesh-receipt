@@ -1,0 +1,66 @@
+<!-- t7.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>AMOUNT (E.G. TK 490.00)</label>
+    <input type="text" data-preview-target="t7-amt" value="Tk 490.00">
+  </div>
+  <div class="form-group">
+    <label>SENDER NUMBER</label>
+    <input type="text" data-preview-target="t7-sender" value="01939056857">
+  </div>
+  <div class="form-group">
+    <label>FEE (E.G. TK 0.00)</label>
+    <input type="text" data-preview-target="t7-fee" value="Tk 0.00">
+  </div>
+  <div class="form-group">
+    <label>BALANCE</label>
+    <input type="text" data-preview-target="t7-balance" value="Tk 3,207.17">
+  </div>
+  <div class="form-group">
+    <label>TRXID</label>
+    <input type="text" data-preview-target="t7-trxid" value="DE27Q16AC7">
+  </div>
+  <div class="form-group">
+    <label>DATE & TIME</label>
+    <input type="text" data-preview-target="t7-datetime" value="02/05/2026 12:25">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Exact iOS Notification Banner) -->
+<div class="template-preview" style="background:#ffffff; border-radius:18px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 14px; display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 400px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Hind Siliguri', sans-serif; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.05);">
+  
+  <!-- Header -->
+  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <!-- bKash Icon -->
+      <div style="width: 30px; height: 30px; background: #C2185B; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+      <!-- App Name & Time -->
+      <div style="display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <span style="font-size: 15px; font-weight: 700; color: #111827;">bKash</span>
+          <span style="font-size: 12px; color: #6B7280;">· Messages · now</span>
+          <!-- Info Icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        </div>
+      </div>
+    </div>
+    <!-- Chevron Up Icon -->
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 4px;"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </div>
+
+  <!-- Body Text -->
+  <div style="font-size: 14px; color: #111827; line-height: 1.5; padding-left: 2px;">
+    You have received <span id="t7-amt">Tk 490.00</span> from <span id="t7-sender">01939056857</span>. Fee <span id="t7-fee">Tk 0.00</span>. Balance <span id="t7-balance">Tk 3,207.17</span>. TrxID <span id="t7-trxid">DE27Q16AC7</span> at <span id="t7-datetime">02/05/2026 12:25</span>
+  </div>
+
+  <!-- Footer (Mark as Read & Grid Icon) -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+    <span style="font-size: 13px; font-weight: 600; color: #007AFF; letter-spacing: 0.5px; text-transform: uppercase;">Mark as Read</span>
+    <!-- 4-Square Grid Icon -->
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+  </div>
+
+</div>
