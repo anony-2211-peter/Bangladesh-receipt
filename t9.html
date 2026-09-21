@@ -27,75 +27,84 @@
   </div>
 </div>
 
-<!-- 2. Is Template ka Preview (Exact Nagad Design - Single Card) -->
-<div class="template-preview" style="background:#F3F4F6; border-radius: 16px; padding: 20px 16px; width: 100%; max-width: 400px; margin: 0 auto; box-sizing: border-box; display: flex; justify-content: center; font-family: 'Inter', 'Hind Siliguri', sans-serif;">
+<!-- 2. Is Template ka Preview (Exact Screenshot 2 Design) -->
+<div class="template-preview" style="background:#F3F4F6; padding: 30px 16px; width: 100%; max-width: 420px; margin: 0 auto; box-sizing: border-box; display: flex; justify-content: center; font-family: 'Inter', 'Hind Siliguri', sans-serif;">
   
   <!-- Single White Card -->
-  <div style="background: #ffffff; border-radius: 16px; padding: 24px 20px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.06); box-sizing: border-box; display: flex; flex-direction: column; align-items: center;">
+  <div style="background: #ffffff; border-radius: 20px; padding: 28px 20px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.08); box-sizing: border-box; display: flex; flex-direction: column; align-items: center;">
     
     <!-- Top Section -->
-    <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; width: 100%;">
-      <!-- Check Icon (Green) -->
-      <div style="width: 44px; height: 44px; border: 2.5px solid #2E7D32; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2E7D32; margin-bottom: 12px;">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; width: 100%;">
+      <!-- Check Icon with Yellow-Green Gradient -->
+      <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="tickGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#9CCC65" />
+              <stop offset="100%" stop-color="#2E7D32" />
+            </linearGradient>
+          </defs>
+          <circle cx="12" cy="12" r="10" stroke="url(#tickGradient)" stroke-width="2.5" />
+          <polyline points="8 12 11 15 16 9" stroke="url(#tickGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
       </div>
       <!-- Title -->
-      <h3 style="font-size: 18px; font-weight: 700; color: #2E7D32; margin: 0 0 4px 0; letter-spacing: 0.3px;">সেন্ড মানি সফল</h3>
+      <h3 style="font-size: 20px; font-weight: 700; color: #2E7D32; margin: 0 0 6px 0; letter-spacing: 0.3px;">সেন্ড মানি সফল</h3>
       <!-- Phone Number -->
-      <div id="t9-phone" style="font-size: 15px; font-weight: 500; color: #374151;">01610-063819</div>
+      <div id="t9-phone" style="font-size: 15px; font-weight: 500; color: #4B5563;">01610-063819</div>
     </div>
 
-    <!-- Details List -->
-    <div style="width: 100%; background: #F9FAFB; border-radius: 12px; padding: 8px 16px; margin-bottom: 20px; box-sizing: border-box;">
+    <!-- Details List (White with Shadow, layered on top) -->
+    <div style="width: 100%; background: #FFFFFF; border-radius: 14px; padding: 8px 16px; margin-bottom: 20px; box-sizing: border-box; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
       
       <!-- Row 1 -->
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #E5E7EB;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #F3F4F6;">
         <span style="font-size: 14px; color: #6B7280; font-weight: 500;">ট্রানজেকশন আইডি</span>
         <span id="t9-trxid" style="font-size: 14px; font-weight: 600; color: #111827;">759SB5RM</span>
       </div>
 
       <!-- Row 2 -->
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #E5E7EB;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #F3F4F6;">
         <span style="font-size: 14px; color: #6B7280; font-weight: 500;">পরিমাণ</span>
         <span id="t9-amt" style="font-size: 14px; font-weight: 600; color: #111827;">400.00 টাকা</span>
       </div>
 
       <!-- Row 3 -->
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #E5E7EB;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #F3F4F6;">
         <span style="font-size: 14px; color: #6B7280; font-weight: 500;">খরচ</span>
         <span id="t9-charge" style="font-size: 14px; font-weight: 600; color: #111827;">5 টাকা</span>
       </div>
 
       <!-- Row 4 -->
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #E5E7EB;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #F3F4F6;">
         <span style="font-size: 14px; color: #6B7280; font-weight: 500;">সর্বমোট</span>
         <span id="t9-total" style="font-size: 14px; font-weight: 600; color: #111827;">405.00 টাকা</span>
       </div>
 
       <!-- Row 5 -->
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
         <span style="font-size: 14px; color: #6B7280; font-weight: 500;">সময়</span>
         <span id="t9-time" style="font-size: 14px; font-weight: 600; color: #111827;">27 এপ্রি. 2026, 05:19 PM</span>
       </div>
 
     </div>
 
-    <!-- Action Buttons (Call & Message) -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-bottom: 12px;">
+    <!-- Action Buttons (Merged Container with Divider) -->
+    <div style="display: flex; width: 100%; margin-bottom: 16px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
       <!-- Call Button -->
-      <button style="background: #ffffff; border: 1px solid #D1D5DB; border-radius: 8px; padding: 12px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer;">
+      <button style="flex: 1; background: transparent; border: none; border-right: 1px solid #E5E7EB; border-radius: 12px 0 0 12px; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 14px; font-weight: 600; color: #4B5563; cursor: pointer;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
         কল
       </button>
       <!-- Message Button -->
-      <button style="background: #ffffff; border: 1px solid #D1D5DB; border-radius: 8px; padding: 12px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer;">
+      <button style="flex: 1; background: transparent; border: none; border-radius: 0 12px 12px 0; padding: 14px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 14px; font-weight: 600; color: #4B5563; cursor: pointer;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
         মেসজ
       </button>
     </div>
 
-    <!-- Bottom Button (Home) -->
-    <button style="width: 100%; background: #2E7D32; color: #ffffff; border: none; border-radius: 999px; padding: 14px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; letter-spacing: 0.5px;">
+    <!-- Bottom Button (Home) with Shadow -->
+    <button style="width: 100%; background: #2E7D32; color: #ffffff; border: none; border-radius: 999px; padding: 16px; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 4px 14px rgba(46, 125, 50, 0.3);">
       হোম এ ফিরে যান
     </button>
 
