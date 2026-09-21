@@ -1,0 +1,87 @@
+<!-- t3.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>Recipient Phone</label>
+    <input type="text" data-preview-target="t3-acc" value="01615856046">
+  </div>
+  <div class="form-group">
+    <label>Recipient Phone (Sub)</label>
+    <input type="text" data-preview-target="t3-acc-sub" value="01615856046">
+  </div>
+  <div class="form-group">
+    <label>Sender (প্রেরক)</label>
+    <input type="text" data-preview-target="t3-sender" value="017*****660">
+  </div>
+  <div class="form-group">
+    <label>Time (সময়)</label>
+    <input type="text" data-preview-target="t3-time" value="10:45am 30/04/26">
+  </div>
+  <div class="form-group">
+    <label>Transaction ID</label>
+    <input type="text" data-preview-target="t3-trxn" value="DDU3NLOPU5">
+  </div>
+  <div class="form-group">
+    <label>Total (সর্বমোট)</label>
+    <input type="text" data-preview-target="t3-total" value="৳250.00">
+  </div>
+  <div class="form-group">
+    <label>Reference (রেফারেন্স)</label>
+    <input type="text" data-preview-target="t3-ref" value="" placeholder="Add reference...">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Exact Design) -->
+<div class="template-preview" style="background:#ffffff; border-radius:16px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); overflow:hidden; width:100%; max-width:400px; margin: 0 auto; font-family: 'Inter', 'Hind Siliguri', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 24px 20px;">
+  
+  <!-- Check Icon -->
+  <div style="width: 50px; height: 50px; border: 2px solid #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #22c55e; margin-bottom: 12px;">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  </div>
+
+  <!-- Title -->
+  <h3 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 20px;">সেন্ড মানি</h3>
+
+  <!-- Recipient Box -->
+  <div style="width: 100%; background: #ffffff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 20px; box-sizing: border-box;">
+    <div style="width: 40px; height: 40px; background: #DBEAFE; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #1E40AF; font-size: 16px; font-weight: 600;">0</div>
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <div id="t3-acc" style="font-size: 15px; font-weight: 500; color: #111827;">01615856046</div>
+      <div id="t3-acc-sub" style="font-size: 14px; color: #6B7280;">01615856046</div>
+    </div>
+  </div>
+
+  <!-- Details Box -->
+  <div style="width: 100%; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; box-sizing: border-box;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr;">
+      
+      <!-- Row 1 -->
+      <div style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
+        <div style="font-size: 11px; color: #6B7280; margin-bottom: 4px;">প্রেরক</div>
+        <div id="t3-sender" style="font-size: 14px; font-weight: 500; color: #111827;">017*****660</div>
+      </div>
+      <div style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB;">
+        <div style="font-size: 11px; color: #6B7280; margin-bottom: 4px;">সময়</div>
+        <div id="t3-time" style="font-size: 14px; font-weight: 500; color: #111827;">10:45am 30/04/26</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
+        <div style="font-size: 11px; color: #6B7280; margin-bottom: 4px;">ট্রানজেকশন আইডি</div>
+        <div id="t3-trxn" style="font-size: 14px; font-weight: 500; color: #111827;">DDU3NLOPU5</div>
+      </div>
+      <div style="padding: 14px 16px; border-bottom: 1px solid #E5E7EB;">
+        <div style="font-size: 11px; color: #6B7280; margin-bottom: 4px;">সর্বমোট</div>
+        <div id="t3-total" style="font-size: 14px; font-weight: 500; color: #111827;">৳250.00</div>
+      </div>
+
+      <!-- Row 3 (Full Width) -->
+      <div style="padding: 14px 16px; grid-column: span 2;">
+        <div style="font-size: 11px; color: #6B7280; margin-bottom: 4px;">রেফারেন্স</div>
+        <div id="t3-ref" style="font-size: 14px; font-weight: 500; color: #111827; min-height: 18px;"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
