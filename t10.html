@@ -1,0 +1,104 @@
+<!-- t10.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>PHONE NUMBER</label>
+    <input type="text" data-preview-target="t10-phone" value="01610-063819">
+  </div>
+  <div class="form-group">
+    <label>TRANSACTION ID</label>
+    <input type="text" data-preview-target="t10-trxid" value="759VYR3Z">
+  </div>
+  <div class="form-group">
+    <label>AMOUNT (পরিমাণ)</label>
+    <input type="text" data-preview-target="t10-amt" value="300.00 টাকা">
+  </div>
+  <div class="form-group">
+    <label>CHARGE (খরচ)</label>
+    <input type="text" data-preview-target="t10-charge" value="5 টাকা">
+  </div>
+  <div class="form-group">
+    <label>TOTAL (সর্বমোট)</label>
+    <input type="text" data-preview-target="t10-total" value="305.00 টাকা">
+  </div>
+  <div class="form-group">
+    <label>TIME (সময়)</label>
+    <input type="text" data-preview-target="t10-time" value="28 এপ্রিল 2026, 10:39 AM">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Exact Nagad Orange Design) -->
+<div class="template-preview" id="receipt-download" style="background-color: #f3f4f6; width: 100%; max-width: 400px; border-radius: 0; padding: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; margin: 0 auto; border-top: 5px solid #D84B1E;">
+  
+  <!-- Header Section -->
+  <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; padding-top: 30px; width: 100%;">
+    
+    <!-- Icon (Orange Gradient Border + White Inner + Orange Check) -->
+    <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #F59E0B 0%, #D84B1E 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; padding: 3px; box-sizing: border-box;">
+      <div style="width: 100%; height: 100%; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">
+        <svg viewBox="0 0 24 24" style="width: 32px; height: 32px; stroke: #D84B1E; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round;">
+          <polyline points="6,12 10,16 18,8"></polyline>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Title & Phone -->
+    <div style="font-size: 22px; font-weight: 700; color: #D84B1E; margin-bottom: 4px;">সেন্ড মানি সফল</div>
+    <div id="t10-phone" style="font-size: 16px; font-weight: 500; color: #4b5563; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">01610-063819</div>
+  </div>
+
+  <!-- Details Card -->
+  <div style="width: 100%; background: #ffffff; border-radius: 16px; padding: 8px 16px; margin-bottom: 16px; box-sizing: border-box; max-width: 90%; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+    
+    <!-- Row 1 -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f3f4f6;">
+      <span style="font-size: 15px; color: #6b7280; font-weight: 500;">ট্রানজেকশন আইডি</span>
+      <span id="t10-trxid" style="font-size: 15px; color: #374151; font-weight: 550; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">759VYR3Z</span>
+    </div>
+
+    <!-- Row 2 -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f3f4f6;">
+      <span style="font-size: 15px; color: #6b7280; font-weight: 500;">পরিমাণ</span>
+      <span id="t10-amt" style="font-size: 15px; color: #374151; font-weight: 550; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">300.00 টাকা</span>
+    </div>
+
+    <!-- Row 3 -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f3f4f6;">
+      <span style="font-size: 15px; color: #6b7280; font-weight: 500;">খরচ</span>
+      <span id="t10-charge" style="font-size: 15px; color: #374151; font-weight: 550; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">5 টাকা</span>
+    </div>
+
+    <!-- Row 4 -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f3f4f6;">
+      <span style="font-size: 15px; color: #6b7280; font-weight: 500;">সর্বমোট</span>
+      <span id="t10-total" style="font-size: 15px; color: #374151; font-weight: 550; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">305.00 টাকা</span>
+    </div>
+
+    <!-- Row 5 -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
+      <span style="font-size: 15px; color: #6b7280; font-weight: 500;">সময়</span>
+      <span id="t10-time" style="font-size: 15px; color: #374151; font-weight: 550; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">28 এপ্রিল 2026, 10:39 AM</span>
+    </div>
+
+  </div>
+
+  <!-- Action Row (Call & Message) -->
+  <div style="display: flex; width: 90%; background: #ffffff; border-radius: 12px; margin-bottom: 16px; overflow: hidden; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+    <!-- Call Button -->
+    <button style="flex: 1; background: transparent; border: none; padding: 16px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Hind Siliguri', sans-serif; font-size: 15px; font-weight: 600; color: #4b5563; cursor: pointer; border-right: 1px solid #e5e7eb;">
+      <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: #4b5563; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      কল
+    </button>
+    <!-- Message Button -->
+    <button style="flex: 1; background: transparent; border: none; padding: 16px 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Hind Siliguri', sans-serif; font-size: 15px; font-weight: 600; color: #4b5563; cursor: pointer;">
+      <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: #4b5563; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      মেসজ
+    </button>
+  </div>
+
+  <!-- Home Button -->
+  <button style="width: 90%; background: #D84B1E; color: #ffffff; border: none; border-radius: 999px; padding: 16px; font-family: 'Hind Siliguri', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(216, 75, 30, 0.3); margin-bottom: 24px;">
+    হোম এ ফিরে যান
+  </button>
+
+</div>
