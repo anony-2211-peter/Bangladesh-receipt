@@ -1,0 +1,47 @@
+<!-- t5.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>Transaction Type</label>
+    <input type="text" data-preview-target="t5-type" value="Received Money">
+  </div>
+  <div class="form-group">
+    <label>Amount</label>
+    <input type="text" data-preview-target="t5-amt" value="+ ৳325.00">
+  </div>
+  <div class="form-group">
+    <label>Phone Number</label>
+    <input type="text" data-preview-target="t5-phone" value="01920364588">
+  </div>
+  <div class="form-group">
+    <label>Time</label>
+    <input type="text" data-preview-target="t5-time" value="11:03am 16/04/26">
+  </div>
+  <div class="form-group">
+    <label>TrxID</label>
+    <input type="text" data-preview-target="t5-trxid" value="DDG381LB89">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Exact Design) -->
+<div class="template-preview" style="background:#ffffff; border-radius:12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); padding: 16px; display: flex; align-items: center; gap: 12px; width: 100%; max-width: 400px; margin: 0 auto; font-family: 'Inter', 'Hind Siliguri', sans-serif; box-sizing: border-box;">
+  
+  <!-- Avatar (Light Green Circle) -->
+  <div style="width: 48px; height: 48px; background: #D4E8A5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #5F7A2E; font-size: 18px; font-weight: 600; flex-shrink: 0;">0</div>
+  
+  <!-- Details (Type, Phone, TrxID) -->
+  <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+    <div id="t5-type" style="font-size: 16px; font-weight: 700; color: #111827;">Received Money</div>
+    <div id="t5-phone" style="font-size: 14px; color: #6B7280;">01920364588</div>
+    <div style="font-size: 13px; color: #9CA3AF;">TrxID : <span id="t5-trxid">DDG381LB89</span></div>
+  </div>
+
+  <!-- Right Side (Amount, Time, Chevron) -->
+  <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+    <div id="t5-amt" style="font-size: 16px; font-weight: 600; color: #16A34A;">+ ৳325.00</div>
+    <div id="t5-time" style="font-size: 13px; color: #6B7280;">11:03am 16/04/26</div>
+    <!-- Chevron Right Icon -->
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  </div>
+
+</div>
