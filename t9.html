@@ -1,0 +1,99 @@
+<!-- t9.html -->
+<!-- 1. Is Template ka Form (Edit Fields) -->
+<div class="template-form">
+  <div class="form-group">
+    <label>PHONE NUMBER</label>
+    <input type="text" data-preview-target="t9-phone" value="01610-063819">
+  </div>
+  <div class="form-group">
+    <label>TRANSACTION ID</label>
+    <input type="text" data-preview-target="t9-trxid" value="759SB5RM">
+  </div>
+  <div class="form-group">
+    <label>AMOUNT (পরিমাণ)</label>
+    <input type="text" data-preview-target="t9-amt" value="400.00 টাকা">
+  </div>
+  <div class="form-group">
+    <label>CHARGE (খরচ)</label>
+    <input type="text" data-preview-target="t9-charge" value="5 টাকা">
+  </div>
+  <div class="form-group">
+    <label>TOTAL (সর্বমোট)</label>
+    <input type="text" data-preview-target="t9-total" value="405.00 টাকা">
+  </div>
+  <div class="form-group">
+    <label>TIME (সময়)</label>
+    <input type="text" data-preview-target="t9-time" value="27 এপ্রি. 2026, 05:19 PM">
+  </div>
+</div>
+
+<!-- 2. Is Template ka Preview (Exact Nagad Design) -->
+<div class="template-preview" style="background:#F3F4F6; border-radius: 12px; padding: 24px 20px; width: 100%; max-width: 400px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; font-family: 'Inter', 'Hind Siliguri', sans-serif;">
+  
+  <!-- Top Section (Checkmark, Title, Phone) -->
+  <div style="width: 100%; background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; margin-bottom: 12px;">
+    <!-- Check Icon (Green) -->
+    <div style="width: 50px; height: 50px; border: 3px solid #2E7D32; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2E7D32; margin-bottom: 12px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+    <!-- Title -->
+    <h3 style="font-size: 18px; font-weight: 700; color: #2E7D32; margin-bottom: 6px;">সেন্ড মানি সফল</h3>
+    <!-- Phone Number -->
+    <div id="t9-phone" style="font-size: 16px; font-weight: 500; color: #111827;">01610-063819</div>
+  </div>
+
+  <!-- Details Card -->
+  <div style="width: 100%; background: #ffffff; border-radius: 12px; padding: 4px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); box-sizing: border-box; margin-bottom: 16px;">
+    
+    <!-- Row 1: TrxID -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #F3F4F6;">
+      <span style="font-size: 14px; color: #4B5563;">ট্রানজেকশন আইডি</span>
+      <span id="t9-trxid" style="font-size: 15px; font-weight: 600; color: #111827;">759SB5RM</span>
+    </div>
+
+    <!-- Row 2: Amount -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #F3F4F6;">
+      <span style="font-size: 14px; color: #4B5563;">পরিমাণ</span>
+      <span id="t9-amt" style="font-size: 15px; font-weight: 600; color: #111827;">400.00 টাকা</span>
+    </div>
+
+    <!-- Row 3: Charge -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #F3F4F6;">
+      <span style="font-size: 14px; color: #4B5563;">খরচ</span>
+      <span id="t9-charge" style="font-size: 15px; font-weight: 600; color: #111827;">5 টাকা</span>
+    </div>
+
+    <!-- Row 4: Total -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #F3F4F6;">
+      <span style="font-size: 14px; color: #4B5563;">সর্বমোট</span>
+      <span id="t9-total" style="font-size: 15px; font-weight: 600; color: #111827;">405.00 টাকা</span>
+    </div>
+
+    <!-- Row 5: Time -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px;">
+      <span style="font-size: 14px; color: #4B5563;">সময়</span>
+      <span id="t9-time" style="font-size: 15px; font-weight: 600; color: #111827;">27 এপ্রি. 2026, 05:19 PM</span>
+    </div>
+
+  </div>
+
+  <!-- Action Buttons (Call & Message) -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-bottom: 12px;">
+    <!-- Call Button -->
+    <button style="background: #ffffff; border: 1px solid #E5E7EB; border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #111827; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      কল
+    </button>
+    <!-- Message Button -->
+    <button style="background: #ffffff; border: 1px solid #E5E7EB; border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #111827; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      মেসজ
+    </button>
+  </div>
+
+  <!-- Bottom Button (Home) -->
+  <button style="width: 100%; background: #2E7D32; color: #ffffff; border: none; border-radius: 24px; padding: 14px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; letter-spacing: 0.3px;">
+    হোম এ ফিরে যান
+  </button>
+
+</div>
